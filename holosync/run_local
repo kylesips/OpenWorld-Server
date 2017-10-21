@@ -1,0 +1,4 @@
+#!/bin/bash
+ip=`hostname -I | xargs`
+port=80
+exec ./manage.py runserver $ip\:$port
