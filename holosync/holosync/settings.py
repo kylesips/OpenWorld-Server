@@ -25,7 +25,10 @@ SECRET_KEY = '&2k41ad3wr5ds@yvh3#8yx8%mnvjyt&b415z)glifc3nzkx^qd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.195','holosync.dev.siopiolosz.ca']
+ALLOWED_HOSTS = [
+  '192.168.0.195', # Local IP address to keep the port forward bindings happy
+  'holosync.dev.siopiolosz.ca' # Official development url
+]
 
 
 # Application definition
@@ -37,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -100,3 +104,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Channel layers for setting up WebSockets via DJango Channels
+# https://channels.readthedocs.io/en/stable/getting-started.html#first-consumers
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "holosync.routing.channel_routing",
+    },
+}
