@@ -108,9 +108,13 @@ STATIC_URL = '/static/'
 # Channel layers for setting up WebSockets via DJango Channels
 # https://channels.readthedocs.io/en/stable/getting-started.html#first-consumers
 
+# In settings.py
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
         "ROUTING": "holosync.routing.channel_routing",
     },
 }
