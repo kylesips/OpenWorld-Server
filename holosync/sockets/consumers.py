@@ -59,12 +59,15 @@ def ws_message(message):
 
   if 'text' in message.content: # Handle plain-text data
     output = {"text": message.content['text']}
+    print("Plain text message received:\n")
+    print(message.content['text'])
   else:  # Handle binary data
     print("Binary data received:\n")
     print(message.content['bytes'])
     output = {"bytes": message.content['bytes']}
 
-  Group("chat").send(output)
+  print("Sending message to group...")
+  Group(DEMO_GROUP).send(output)
 
 # Connected to websocket.disconnect
 def ws_disconnect(message):
