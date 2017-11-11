@@ -9,6 +9,7 @@ sd = SocketDebugger()
 sd.toggle_debug_mode()
 
 DEMO_GROUP = "demo"
+DEMO_GROUP_LIST = []
 
 ####################################################
 ## HTTP Consumer as per Django Channels tutorial  ##
@@ -48,7 +49,8 @@ def ws_add(message):
     print("Message Reply Channel:\n", message.reply_channel)
 
     # Add them to the chat group
-    Group(DEMO_GROUP).add(message.reply_channel)
+    # Group(DEMO_GROUP).add(message.reply_channel)
+    DEMO_GROUP_LIST.append(message.reply_channel)
 
 # Connected to websocket.receive
 def ws_message(message):
@@ -66,10 +68,24 @@ def ws_message(message):
     print(message.content['bytes'])
     output = {"bytes": message.content['bytes']}
 
-  print("Sending message to group...")
-  Group(DEMO_GROUP).send(output)
+  print("Sending message to group (excluding sender)...")
+  if(len(DEMO_GROUP_LIST) == 1 and DEMO_GROUP_LIST[0].name == message.reply_channel.name): # Base case for single connection testing
+    message.reply_channel.send(output)
+  else:
+    for channel in DEMO_GROUP_LIST:
+      if channel.name != message.reply_channel.name: # Send message to all other devices in the group
+        channel.send(output)
+
+
+  #Group(DEMO_GROUP).discard(message.reply_channel)
+  #Group(DEMO_GROUP).send(output,immediately=True)
+  #Group(DEMO_GROUP).add(message.reply_channel)
 
 # Connected to websocket.disconnect
 def ws_disconnect(message):
-    Group(DEMO_GROUP).discard(message.reply_channel)
+    #Group(DEMO_GROUP).discard(message.reply_channel)
+    try:
+      DEMO_GROUP_LIST.remove(message.reply_channel)
+    except ValueError:
+      pass  # or scream: thing not in some_list!
 
