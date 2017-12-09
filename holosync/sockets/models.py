@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 from .enums import Platforms
 
-class AppConfig(models.Model):
+class App_Config(models.Model):
   """
   An app configuration (with exception to historical relations) will be unique for each app on each platform
   that integrates with openWorld.  This model inherits a 1 App Configuration to N Permission relationship,
