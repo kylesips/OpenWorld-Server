@@ -41,6 +41,9 @@ class Device_Browser(models.Model):
   browser_version = models.CharField(max_length=App_Config.MAX_VERSION_LENGTH)
   browser_user_agent = models.CharField(max_length=App_Config.MAX_NAME_LENGTH, unique=True)
 
+  class Meta:
+    unique_together = (('browser_version', 'browser_user_agent'),)
+
 class Device_Platform(models.Model):
   """
   Normalized table used to store information relating to a device of type platform that
