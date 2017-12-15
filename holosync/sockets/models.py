@@ -39,7 +39,7 @@ class Device_Browser(models.Model):
   """
   browser_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
   browser_version = models.CharField(max_length=App_Config.MAX_VERSION_LENGTH)
-  browser_user_agent = models.CharField(max_length=App_Config.MAX_NAME_LENGTH)
+  browser_user_agent = models.CharField(max_length=App_Config.MAX_NAME_LENGTH, unique=True)
 
 class Device_Platform(models.Model):
   """
