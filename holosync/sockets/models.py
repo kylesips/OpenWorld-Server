@@ -54,7 +54,6 @@ class Device_Platform(models.Model):
   platform_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
   platform_version = models.CharField(max_length=App_Config.MAX_VERSION_LENGTH)
 
-
 class App_User(models.Model):
   """
   Normalized table used to store information relating to a user that instantiated a particular app instance
@@ -62,6 +61,13 @@ class App_User(models.Model):
   user_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
   user_secret = models.CharField(max_length=App_Config.SECRET_LENGTH, unique=True,
                                  default=get_random_string(App_Config.SECRET_LENGTH), editable=False)
+
+
+class App_User_Metadata_Language(models.Model):
+  language_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
+  user = models.ForeignKey(App_User, on_delete=models.CASCADE)
+  language_title = models.CharField(max_length=App_Config.MAX_NAME_LENGTH)
+
 
 
 class App_Instance(models.Model):
