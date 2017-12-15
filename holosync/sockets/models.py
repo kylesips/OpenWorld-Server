@@ -61,6 +61,7 @@ class App_User(models.Model):
   user_id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False, unique=True)
   user_secret = models.CharField(max_length=App_Config.SECRET_LENGTH, unique=True,
                                  default=get_random_string(App_Config.SECRET_LENGTH), editable=False)
+  prefered_langauge = models.OneToOneField('App_User_Metadata_Language',on_delete=models.PROTECT, null=True)
 
 
 class App_User_Metadata_Language(models.Model):
